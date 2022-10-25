@@ -41,4 +41,9 @@ public class LoginAndPasswordControllerImpl implements LoginAndPasswordControlle
     public int delete(Integer id) {
         return loginAndPasswordService.delete(id);
     }
+
+    @Override
+    public Optional<LoginAndPassword> findByLoginAndPassword(String password) {
+        return loginAndPasswordService.findByLoginAndPassword(password);
+    }
 }

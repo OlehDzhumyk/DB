@@ -42,4 +42,10 @@ public class LoginAndPasswordServiceImpl implements LoginAndPasswordService {
     public int delete(Integer id) {
         return loginAndPasswordDao.delete(id);
     }
+
+
+    @Override
+    public Optional<LoginAndPassword> findByLoginAndPassword(String password) {
+        return loginAndPasswordDao.findByLoginAndPassword(password);
+    }
 }

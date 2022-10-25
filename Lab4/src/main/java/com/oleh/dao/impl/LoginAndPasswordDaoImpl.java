@@ -2,6 +2,7 @@ package com.oleh.dao.impl;
 
 import com.oleh.dao.LoginAndPasswordDao;
 import com.oleh.domain.LoginAndPassword;
+import com.oleh.domain.Seats;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,6 +19,8 @@ public class LoginAndPasswordDaoImpl implements LoginAndPasswordDao {
     private static final String UPDATE = "UPDATE login_and_password SET login=?, password=? WHERE id=?";
     private static final String DELETE = "DELETE FROM login_and_password WHERE id=?";
     private static final String FIND_BY_ID = "SELECT * FROM login_and_password WHERE id=?";
+
+    private static final String FIND_BY_LOGIN_AND_PASSWORD = "SELECT * FROM login_and_password WHERE login=?";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -58,4 +61,15 @@ public class LoginAndPasswordDaoImpl implements LoginAndPasswordDao {
         return jdbcTemplate.update(DELETE, id);
     }
 
+    @Override
+    public Optional<LoginAndPassword> findByLoginAndPassword(String password) {
+        Optional<LoginAndPassword> loginAndPassword;
+        try {
+            loginAndPassword = Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_LOGIN_AND_PASSWORD,
+                    BeanPropertyRowMapper.newInstance(LoginAndPassword.class), password));
+        } catch (EmptyResultDataAccessException e) {
+            loginAndPassword = Optional.empty();
+        }
+        return loginAndPassword;
+    }
 }
